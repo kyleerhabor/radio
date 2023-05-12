@@ -82,10 +82,14 @@ struct RadioApp: App {
   }
 
   func activityAssetImage(for song: Song) -> String {
-    return "\(song.albumArtist) \(song.album)"
-      .replacingOccurrences(of: " ", with: "_")
-      .filter { $0.isLetter || $0.isNumber || $0 == "_" }
+    let image = "\(song.albumArtist) \(song.album)"
+      .filter { $0.isLetter || $0.isNumber || $0 == " " || $0 == "_" || $0 == "'" }
+      .replacingOccurrences(of: "( |')+", with: "_", options: .regularExpression)
       .lowercased()
+
+    logger.debug("\(song.album) \(image)")
+
+    return image
   }
 
   func activity(for song: Song) -> Activity {
