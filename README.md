@@ -24,7 +24,7 @@ In both these cases, you should quit Radio and start it after Discord.
 
 ### Artwork
 
-Discord uses Activity Asset Images for images displayed in Rich Presence. These must either be URLs to images on the web or IDs for asset images uploaded to the Developer Portal. This is troublesome, as album artwork in Doppler is image data and does not correspond to any URL. To circumvent this limitation, Radio broadcasts an ID associated with the song album, where the album artist and album name are separated by a space and normalized. For example, "Rocket" from Susumu Hirasawa's error CD album is broadcasted as `susumu_hirasawa_error_cd`. With this composition, an image associated with the album can be uploaded to the Developer Portal.
+Discord uses Activity Asset Images for images displayed in Rich Presence. These must either be URLs to images on the web or IDs for asset images uploaded to the Developer Portal. This is troublesome, as album artwork in Doppler is image data and does not correspond to any URL. To circumvent this limitation, Radio broadcasts an ID associated with the song album, where the album artist and album name are separated by a space and normalized. For example, "Rocket" from Susumu Hirasawa's error CD album is broadcasted as `susumu_hirasawa_error_cd`. With this composition, an image associated with an album can be uploaded to the Developer Portal.
 1. Go to the [Developer Portal](https://discord.com/developers/applications)
 2. Click the "New Application" button to create a new application for yourself (e.g. call it Radio)
 3. On the General Information tab, copy the Application ID and replace the default used in Radio with it
