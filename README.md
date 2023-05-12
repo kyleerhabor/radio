@@ -28,7 +28,9 @@ Discord uses Activity Asset Images for images displayed in Rich Presence. These 
 1. Go to the [Developer Portal](https://discord.com/developers/applications)
 2. Click the "New Application" button to create a new application for yourself (e.g. call it Radio)
 3. On the General Information tab, copy the Application ID and replace the default used in Radio with it
-4. Click on the Rich Presence > Art Assets tabs and use the "Add Image(s)" button to upload album artwork. Make sure the names of the image files uploaded match with the ID composition
+4. Click on Rich Presence > Art Assets and use the "Add Image(s)" button to add the following:
+- The Doppler icon (in `Documentation/Doppler.png`) 
+- The album artwork image files named to match their IDs.
 5. Enable "Display Artwork" in Radio for it to send IDs to Discord. With that, you should start seeing album artwork
 
 If you use [Meta for Mac](https://www.nightbirdsevolve.com/meta/), you can follow this process to export your album artwork to files.

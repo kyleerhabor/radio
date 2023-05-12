@@ -41,7 +41,6 @@ struct ContentView: View {
         Spacer()
       }.font(.largeTitle)
 
-      // TODO: Add details about the relation to displaying artwork.
       // TODO: Figure out how to monospace the value but not the label.
       TextField("Client ID", text: $clientId, prompt: Text(defaultClientId))
         .onChange(of: clientId) { id in
@@ -64,15 +63,12 @@ struct ContentView: View {
         }
       }
 
-      Toggle(isOn: $displayArtwork) {
-        Text("Display Artwork")
+      Toggle("Display Artwork", isOn: $displayArtwork)
 
-        Text("You'll need to create your own Discord application and Rich Presence Assets for each artwork. The asset keys should be the album artist and album name separated by a space, which will be converted by Discord.")
-
-        Text("e.g. ")
-        + Text("Susumu Hirasawa error CD").fontDesign(.monospaced)
-        + Text(" -> ").bold()
-        + Text("susumu_hirasawa_error_cd").fontDesign(.monospaced)
+      Section {
+        // Empty
+      } footer: {
+        Link("Homepage", destination: .init(string: "https://github.com/KyleErhabor/Radio")!)
       }
     }
     .formStyle(.grouped)
