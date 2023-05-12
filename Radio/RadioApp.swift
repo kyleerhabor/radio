@@ -60,6 +60,10 @@ struct RadioApp: App {
             }
           }
 
+          rpc.onError { _, _, error in
+            print("[Radio (Discord)] \(error.data.code): \(error.data.message)")
+          }
+
           do {
             try rpc.connect()
           } catch let err {
