@@ -91,7 +91,7 @@ struct RadioApp: App {
   func activity(for song: Song) -> Activity {
     return .init(
       details: "\(song.artist) - \(song.name)",
-      state: "Listening",
+      state: getState(state: song.state),
       assets: .init(
         largeImage: displayArtwork ? activityAssetImage(for: song) : "doppler",
         largeText: displayArtwork ? song.album : "Doppler",
@@ -148,6 +148,7 @@ struct RadioApp: App {
     switch state {
       case "playing": return "Listening"
       case "paused": return "Paused"
+      case "stopped": return "Stopped"
       default: return nil
     }
   }
