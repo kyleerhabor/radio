@@ -42,8 +42,6 @@ struct RadioApp: App {
           rpc = .init(clientID: clientId)
 
           rpc!.onConnect { _, _ in
-            updateActivity()
-
             poll {
               updateActivity()
             }
@@ -63,8 +61,9 @@ struct RadioApp: App {
   }
 
   func poll(_ call: @escaping () -> Void) {
+    call()
+
     DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(Int(refreshRate))) {
-      call()
       poll(call)
     }
   }

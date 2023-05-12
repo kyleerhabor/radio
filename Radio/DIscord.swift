@@ -7,7 +7,6 @@
 
 import Darwin
 import DiscordRPC
-import Foundation
 
 struct RequestSetActivity: Encodable {
   let cmd: CommandType = .setActivity

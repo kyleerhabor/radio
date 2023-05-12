@@ -10,7 +10,6 @@
 		0012B46D2A0AA96200C5C0DE /* DiscordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 0012B46C2A0AA96200C5C0DE /* DiscordRPC */; };
 		0012B46F2A0AE4E900C5C0DE /* DIscord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012B46E2A0AE4E900C5C0DE /* DIscord.swift */; };
 		0060CFC72A0DC53400AFA58F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0060CFC62A0DC53400AFA58F /* LICENSE */; };
-		00CD6F422A0E9263007CF450 /* example.png in Resources */ = {isa = PBXBuildFile; fileRef = 00CD6F412A0E9263007CF450 /* example.png */; };
 		00E007B42A09CA49006FEE5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E007B32A09CA49006FEE5C /* ContentView.swift */; };
 		00E007B62A09CA4D006FEE5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00E007B52A09CA4D006FEE5C /* Assets.xcassets */; };
 		00E007B92A09CA4D006FEE5C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00E007B82A09CA4D006FEE5C /* Preview Assets.xcassets */; };
@@ -180,7 +179,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E007B92A09CA4D006FEE5C /* Preview Assets.xcassets in Resources */,
-				00CD6F422A0E9263007CF450 /* example.png in Resources */,
 				0060CFC72A0DC53400AFA58F /* LICENSE in Resources */,
 				00E007B62A09CA4D006FEE5C /* Assets.xcassets in Resources */,
 			);
