@@ -5,12 +5,16 @@
 //  Created by Kyle Erhabor on 5/8/23.
 //
 
-import SwiftUI
 import DiscordRPC
+import SwiftUI
+import os
+
+typealias Song = (name: String, artist: String, state: String)
 
 @main
 struct RadioApp: App {
   let rpc = DiscordRPC(clientID: "1105292931801301004")
+  let logger = Logger()
   let nowPlayingAppleScript: NSAppleScript = {
     let source = """
       tell application "Doppler"
@@ -30,44 +34,21 @@ struct RadioApp: App {
       ContentView()
         .onAppear {
           rpc.onConnect { _, _ in
+            updateActivity()
+
             poll {
-              let song = getNowPlayingSong()
-              let request = RequestSetActivity(
-                nonce: generateNonce(async: true),
-                args: .init(
-                  activity: .init(
-                    details: song == nil ? nil : "\(song!.artist) - \(song!.name)",
-                    state: song == nil ? "Stopped" : getState(state: song!.state),
-                    assets: .init(
-                      largeImage: "doppler",
-                      largeText: "Doppler"
-                    )
-                  )
-                )
-              )
-
-              let encoder = JSONEncoder()
-
-              do {
-                let encoded = try encoder.encode(request)
-
-                if let json = String(data: encoded, encoding: .utf8) {
-                  try rpc.send(json, .frame)
-                }
-              } catch let err as NSError {
-                print(err)
-              }
+              updateActivity()
             }
           }
 
           rpc.onError { _, _, error in
-            print("[Radio (Discord)] \(error.data.code): \(error.data.message)")
+            logger.error("\(String(describing: error.data.code)): \(error.data.message)")
           }
 
           do {
             try rpc.connect()
           } catch let err {
-            print(err)
+            logger.error("\(err)")
           }
         }
     }
@@ -80,7 +61,40 @@ struct RadioApp: App {
     }
   }
 
-  func getNowPlayingSong() -> (name: String, artist: String, state: String)? {
+  func updateActivity() {
+    updateActivity(for: getNowPlayingSong())
+  }
+
+  func updateActivity(for song: Song?) {
+    let song = getNowPlayingSong()
+    let request = RequestSetActivity(
+      nonce: generateNonce(async: true),
+      args: .init(
+        activity: .init(
+          details: song == nil ? nil : "\(song!.artist) - \(song!.name)",
+          state: song == nil ? "Stopped" : getState(state: song!.state),
+          assets: .init(
+            largeImage: "doppler",
+            largeText: "Doppler"
+          )
+        )
+      )
+    )
+
+    let encoder = JSONEncoder()
+
+    do {
+      let encoded = try encoder.encode(request)
+
+      if let json = String(data: encoded, encoding: .utf8) {
+        try rpc.send(json, .frame)
+      }
+    } catch let err {
+      logger.error("\(err)")
+    }
+  }
+
+  func getNowPlayingSong() -> Song? {
     var error: NSDictionary?
     let descriptor = nowPlayingAppleScript.executeAndReturnError(&error)
 
