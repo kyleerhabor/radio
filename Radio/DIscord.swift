@@ -29,9 +29,13 @@ struct Activity: Encodable {
 struct ActivityAssets: Encodable {
   let largeImage: String?
   let largeText: String?
+  let smallImage: String?
+  let smallText: String?
 
   enum CodingKeys: String, CodingKey {
     case largeImage = "large_image"
     case largeText = "large_text"
+    case smallImage = "small_image"
+    case smallText = "small_text"
   }
 }

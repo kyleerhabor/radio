@@ -9,31 +9,39 @@ import DiscordRPC
 import SwiftUI
 import os
 
-typealias Song = (name: String, artist: String, state: String)
+typealias Song = (name: String, artist: String, album: String, albumArtist: String, state: String)
 
 @main
 struct RadioApp: App {
-  let rpc = DiscordRPC(clientID: "1105292931801301004")
   let logger = Logger()
   let nowPlayingAppleScript: NSAppleScript = {
     let source = """
       tell application "Doppler"
         set n to the name of the current track
         set a to the artist of the current track
+        set aa to the album of the current track
+        set aaa to the album artist of the current track
         set p to the player state as string
       end tell
 
-      return {n, a, p}
+      return {n, a, aa, aaa, p}
     """
 
     return NSAppleScript(source: source)!
   }()
 
+  @AppStorage("clientId") private var clientId: String = defaultClientId
+  @AppStorage("refreshRate") private var refreshRate: Double = 5
+  @AppStorage("displayArtwork") private var displayArtwork = false
+  @State private var rpc: DiscordRPC?
+
   var body: some Scene {
     WindowGroup {
       ContentView()
         .onAppear {
-          rpc.onConnect { _, _ in
+          rpc = .init(clientID: clientId)
+
+          rpc!.onConnect { _, _ in
             updateActivity()
 
             poll {
@@ -41,12 +49,12 @@ struct RadioApp: App {
             }
           }
 
-          rpc.onError { _, _, error in
+          rpc!.onError { _, _, error in
             logger.error("\(String(describing: error.data.code)): \(error.data.message)")
           }
 
           do {
-            try rpc.connect()
+            try rpc!.connect()
           } catch let err {
             logger.error("\(err)")
           }
@@ -55,30 +63,56 @@ struct RadioApp: App {
   }
 
   func poll(_ call: @escaping () -> Void) {
-    DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(5)) {
+    DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(Int(refreshRate))) {
       call()
       poll(call)
     }
   }
 
-  func updateActivity() {
-    updateActivity(for: getNowPlayingSong())
+  func activity() -> Activity {
+    .init(
+      details: nil,
+      state: "Stopped",
+      assets: .init(
+        largeImage: "doppler",
+        largeText: "Doppler",
+        smallImage: nil,
+        smallText: nil
+      )
+    )
   }
 
-  func updateActivity(for song: Song?) {
+  func activityAssetImage(for song: Song) -> String {
+    return "\(song.albumArtist) \(song.album)"
+      .replacingOccurrences(of: " ", with: "_")
+      .filter { $0.isLetter || $0.isNumber || $0 == "_" }
+      .lowercased()
+  }
+
+  func activity(for song: Song) -> Activity {
+    return .init(
+      details: "\(song.artist) - \(song.name)",
+      state: "Listening",
+      assets: .init(
+        largeImage: displayArtwork ? activityAssetImage(for: song) : "doppler",
+        largeText: displayArtwork ? song.album : "Doppler",
+        smallImage: displayArtwork ? "doppler" : nil,
+        smallText: displayArtwork ? "Doppler" : nil
+      )
+    )
+  }
+
+  func updateActivity() {
     let song = getNowPlayingSong()
+    let activity = song == nil ? activity() : activity(for: song!)
+
+    updateActivity(activity)
+  }
+
+  func updateActivity(_ activity: Activity) {
     let request = RequestSetActivity(
       nonce: generateNonce(async: true),
-      args: .init(
-        activity: .init(
-          details: song == nil ? nil : "\(song!.artist) - \(song!.name)",
-          state: song == nil ? "Stopped" : getState(state: song!.state),
-          assets: .init(
-            largeImage: "doppler",
-            largeText: "Doppler"
-          )
-        )
-      )
+      args: .init(activity: activity)
     )
 
     let encoder = JSONEncoder()
@@ -87,7 +121,7 @@ struct RadioApp: App {
       let encoded = try encoder.encode(request)
 
       if let json = String(data: encoded, encoding: .utf8) {
-        try rpc.send(json, .frame)
+        try rpc!.send(json, .frame)
       }
     } catch let err {
       logger.error("\(err)")
@@ -105,7 +139,9 @@ struct RadioApp: App {
     return (
       name: descriptor.atIndex(1)!.stringValue!,
       artist: descriptor.atIndex(2)!.stringValue!,
-      state: descriptor.atIndex(3)!.stringValue!
+      album: descriptor.atIndex(3)!.stringValue!,
+      albumArtist: descriptor.atIndex(4)!.stringValue!,
+      state: descriptor.atIndex(5)!.stringValue!
     )
   }
 
