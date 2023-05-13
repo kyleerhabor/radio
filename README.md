@@ -33,14 +33,17 @@ Discord uses Activity Asset Images for images displayed in Rich Presence. These 
     - The album artwork image files named to match their IDs
 5. Enable "Display Artwork" in Radio for it to send IDs to Discord. With that, you should start seeing album artwork
 
-If you use [Meta for Mac](https://www.nightbirdsevolve.com/meta/), you can follow this process to export your album artwork to files.
+If you use [Meta for Mac][meta], you can follow this process to export your album artwork to files.
 1. Import all your files
-2. Export them all with the following pattern: `albumArtist% %album` 
+2. From the menu bar, go to Edit > Artwork > Export...
+2. Export all the artwork with the following pattern: `albumArtist% %album` 
 
 #### Normalization
 
-The normalization Discord applies to names differs from Radio's. If you're finding certain songs to not have their album artwork displayed, please [create an issue](https://github.com/KyleErhabor/Radio/issues/new). 
+The normalization Discord applies to file names differs from Radio's (though, it's close). This will most likely occur when you have an album or album artist name that's not in English. If it happens, please [create an issue](https://github.com/KyleErhabor/Radio/issues/new) about it. 
 
 #### Sizes
 
-Discord requires asset images to be at least 512x512.
+Discord requires asset images to be at least 512x512. This may be annoying if you use [Meta for Mac][meta], as the default is 500x500. 
+
+[meta]: https://www.nightbirdsevolve.com/meta/
