@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		0012B46E2A0AE4E900C5C0DE /* DIscord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIscord.swift; sourceTree = "<group>"; };
-		005E5E082A101761007A809C /* example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = example.png; sourceTree = "<group>"; };
+		005E5E092A102045007A809C /* example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = example.png; sourceTree = "<group>"; };
 		0060CFC02A0DBFC700AFA58F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0060CFC62A0DC53400AFA58F /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		006711CF2A0ECEC200812966 /* Doppler.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Doppler.png; sourceTree = "<group>"; };
@@ -58,7 +58,7 @@
 		0060CFC12A0DC02500AFA58F /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
-				005E5E082A101761007A809C /* example.png */,
+				005E5E092A102045007A809C /* example.png */,
 				006711CF2A0ECEC200812966 /* Doppler.png */,
 			);
 			path = Documentation;
