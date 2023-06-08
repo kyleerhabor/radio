@@ -53,7 +53,7 @@ struct ContentView: View {
           .toggleStyle(.switch)
 
         Button {
-          displayArtworkInfo = true
+          displayArtworkInfo.toggle()
         } label: {
           Image(systemName: "questionmark")
         }
