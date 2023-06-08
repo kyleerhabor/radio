@@ -11,9 +11,13 @@ import os
 
 typealias Song = (name: String, artist: String, album: String, albumArtist: String, state: String)
 
+let defaultClientId = "1105292931801301004"
+let defaultRefreshRate = 5
+let defaultDisplayingArtwork = false
+
 @main
 struct RadioApp: App {
-  let logger = Logger()
+  static let logger = Logger()
   let nowPlayingAppleScript: NSAppleScript = {
     let source = """
       tell application "Doppler"
@@ -30,9 +34,9 @@ struct RadioApp: App {
     return NSAppleScript(source: source)!
   }()
 
-  @AppStorage("clientId") private var clientId: String = defaultClientId
-  @AppStorage("refreshRate") private var refreshRate: Double = 5
-  @AppStorage("displayArtwork") private var displayArtwork = false
+  @AppStorage("clientId") private var clientId = defaultClientId
+  @AppStorage("refreshRate") private var refreshRate = Double(defaultRefreshRate)
+  @AppStorage("displayArtwork") private var displayArtwork = defaultDisplayingArtwork
   @State private var rpc: DiscordRPC?
 
   var body: some Scene {
@@ -48,13 +52,13 @@ struct RadioApp: App {
           }
 
           rpc!.onError { _, _, error in
-            logger.error("\(String(describing: error.data.code)): \(error.data.message)")
+            Self.logger.error("\(String(describing: error.data.code)): \(error.data.message)")
           }
 
           do {
             try rpc!.connect()
           } catch let err {
-            logger.error("\(err)")
+            Self.logger.error("\(err)")
           }
         }
     }
@@ -87,7 +91,7 @@ struct RadioApp: App {
       .replacingOccurrences(of: "[^\\w-]+", with: "_", options: .regularExpression)
       .lowercased()
 
-    logger.debug("\(song.album) \(image)")
+    Self.logger.debug("\(song.album) \(image)")
 
     return image
   }
@@ -127,7 +131,7 @@ struct RadioApp: App {
         try rpc!.send(json, .frame)
       }
     } catch let err {
-      logger.error("\(err)")
+      Self.logger.error("\(err)")
     }
   }
 
