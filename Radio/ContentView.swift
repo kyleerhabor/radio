@@ -15,6 +15,7 @@ struct ContentView: View {
   @AppStorage("displayArtwork") private var displayArtwork = false
 
   @State private var clientId: String = ""
+  @State private var displayArtworkInfo = false
 
   let formatter: DateComponentsFormatter = {
     let formatter = DateComponentsFormatter()
@@ -26,44 +27,48 @@ struct ContentView: View {
 
   var body: some View {
     Form {
-      HStack {
-        Spacer()
+      LabeledContent("Client ID") {
+        TextField("Client ID", text: $clientId, prompt: Text(defaultClientId))
+          .labelsHidden()
+          .fontDesign(.monospaced)
+      }.onChange(of: clientId) { id in
+        guard !id.isEmpty else {
+          appClientId = defaultClientId
 
-        Text("Radio")
-          .bold()
-
-        Text("—")
-          .foregroundColor(.secondary)
-
-        Text("Broadcast your currently playing song in Doppler to Discord.")
-          .font(.title)
-
-        Spacer()
-      }.font(.largeTitle)
-
-      // TODO: Figure out how to monospace the value but not the label.
-      TextField("Client ID", text: $clientId, prompt: Text(defaultClientId))
-        .onChange(of: clientId) { id in
-          guard !id.isEmpty else {
-            appClientId = defaultClientId
-
-            return
-          }
-
-          appClientId = id
+          return
         }
 
-      HStack {
+        appClientId = id
+      }
+
+      LabeledContent("Refresh Rate") {
         Slider(value: $refreshRate, in: 1...10, step: 1) {
-          Text("Refresh Rate")
-        }
-
-        if let s = formatter.string(from: refreshRate) {
-          Text(s)
+          Text(formatter.string(from: refreshRate) ?? "")
         }
       }
 
-      Toggle("Display Artwork", isOn: $displayArtwork)
+      LabeledContent("Display Artwork") {
+        Toggle("Display Artwork", isOn: $displayArtwork)
+          .labelsHidden()
+          .toggleStyle(.switch)
+
+        Button {
+          displayArtworkInfo = true
+        } label: {
+          Image(systemName: "questionmark")
+        }
+        .clipShape(Circle())
+        .popover(isPresented: $displayArtworkInfo, arrowEdge: .trailing) {
+          VStack {
+            Text("To use this feature, please read the guide here:")
+
+            let url = "https://github.com/KyleErhabor/Radio#artwork"
+
+            Link(url, destination: .init(string: url)!)
+              .focusable(false)
+          }.padding()
+        }
+      }
 
       Section {
         // Empty

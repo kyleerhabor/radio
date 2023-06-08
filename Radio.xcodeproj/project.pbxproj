@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0012B46D2A0AA96200C5C0DE /* DiscordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 0012B46C2A0AA96200C5C0DE /* DiscordRPC */; };
-		0012B46F2A0AE4E900C5C0DE /* DIscord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012B46E2A0AE4E900C5C0DE /* DIscord.swift */; };
+		0012B46F2A0AE4E900C5C0DE /* Discord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0012B46E2A0AE4E900C5C0DE /* Discord.swift */; };
+		001C03752A321726005014B9 /* DiscordRPC in Frameworks */ = {isa = PBXBuildFile; productRef = 001C03742A321726005014B9 /* DiscordRPC */; };
 		0060CFC72A0DC53400AFA58F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0060CFC62A0DC53400AFA58F /* LICENSE */; };
 		00E007B42A09CA49006FEE5C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E007B32A09CA49006FEE5C /* ContentView.swift */; };
 		00E007B62A09CA4D006FEE5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00E007B52A09CA4D006FEE5C /* Assets.xcassets */; };
@@ -30,7 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0012B46E2A0AE4E900C5C0DE /* DIscord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIscord.swift; sourceTree = "<group>"; };
+		0012B46E2A0AE4E900C5C0DE /* Discord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discord.swift; sourceTree = "<group>"; };
 		005E5E092A102045007A809C /* example.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = example.png; sourceTree = "<group>"; };
 		0060CFC02A0DBFC700AFA58F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0060CFC62A0DC53400AFA58F /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0012B46D2A0AA96200C5C0DE /* DiscordRPC in Frameworks */,
+				001C03752A321726005014B9 /* DiscordRPC in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				00E007B12A09CA49006FEE5C /* RadioApp.swift */,
-				0012B46E2A0AE4E900C5C0DE /* DIscord.swift */,
+				0012B46E2A0AE4E900C5C0DE /* Discord.swift */,
 				00E007B32A09CA49006FEE5C /* ContentView.swift */,
 				00E007B52A09CA4D006FEE5C /* Assets.xcassets */,
 				00E007BA2A09CA4D006FEE5C /* Radio.entitlements */,
@@ -133,7 +133,7 @@
 			);
 			name = Radio;
 			packageProductDependencies = (
-				0012B46C2A0AA96200C5C0DE /* DiscordRPC */,
+				001C03742A321726005014B9 /* DiscordRPC */,
 			);
 			productName = Radio;
 			productReference = 00E007AE2A09CA49006FEE5C /* Radio.app */;
@@ -164,7 +164,7 @@
 			);
 			mainGroup = 00E007A52A09CA49006FEE5C;
 			packageReferences = (
-				0012B46B2A0AA96200C5C0DE /* XCRemoteSwiftPackageReference "DiscordRPC" */,
+				001C03732A321726005014B9 /* XCRemoteSwiftPackageReference "DiscordRPC" */,
 			);
 			productRefGroup = 00E007AF2A09CA49006FEE5C /* Products */;
 			projectDirPath = "";
@@ -194,7 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E007B42A09CA49006FEE5C /* ContentView.swift in Sources */,
-				0012B46F2A0AE4E900C5C0DE /* DIscord.swift in Sources */,
+				0012B46F2A0AE4E900C5C0DE /* Discord.swift in Sources */,
 				00E0088B2A09E5F0006FEE5C /* RadioApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,7 +399,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0012B46B2A0AA96200C5C0DE /* XCRemoteSwiftPackageReference "DiscordRPC" */ = {
+		001C03732A321726005014B9 /* XCRemoteSwiftPackageReference "DiscordRPC" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/KyleErhabor/DiscordRPC";
 			requirement = {
@@ -410,9 +410,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0012B46C2A0AA96200C5C0DE /* DiscordRPC */ = {
+		001C03742A321726005014B9 /* DiscordRPC */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0012B46B2A0AA96200C5C0DE /* XCRemoteSwiftPackageReference "DiscordRPC" */;
+			package = 001C03732A321726005014B9 /* XCRemoteSwiftPackageReference "DiscordRPC" */;
 			productName = DiscordRPC;
 		};
 /* End XCSwiftPackageProductDependency section */
