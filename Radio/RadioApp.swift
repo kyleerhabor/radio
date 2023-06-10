@@ -45,30 +45,54 @@ struct RadioApp: App {
         .onAppear {
           rpc = .init(clientID: clientId)
 
-          rpc!.onConnect { _, _ in
-            poll {
-              updateActivity()
+          rpc!.onConnect { rpc, _ in
+            Self.logger.info("Connected!")
+
+            poll(every: .seconds(Int(refreshRate))) {
+              // If the socket is not connected (likely was disconnected by the user closing Discord), try reconnecting
+              // until connected. When connected, this poll will stop, since onConnect will be called again.
+              guard rpc.socket?.isConnected == true else {
+                return !connect(rpc: rpc)
+              }
+
+              updateActivity(rpc: rpc)
+
+              return true
             }
           }
 
           rpc!.onError { _, _, error in
-            Self.logger.error("\(String(describing: error.data.code)): \(error.data.message)")
+            Self.logger.error("Error! \(String(describing: error.data.code)): \(error.data.message)")
           }
 
-          do {
-            try rpc!.connect()
-          } catch let err {
-            Self.logger.error("\(err)")
+          rpc!.onDisconnect { _, _ in
+            Self.logger.warning("Disconnected!")
+          }
+
+          poll(every: .seconds(5)) {
+            !connect(rpc: rpc!)
           }
         }
     }
   }
 
-  func poll(_ call: @escaping () -> Void) {
-    call()
+  func connect(rpc: DiscordRPC) -> Bool {
+    do {
+      try rpc.connect()
 
-    DispatchQueue.global().asyncAfter(deadline: .now() + .seconds(Int(refreshRate))) {
-      poll(call)
+      return true
+    } catch {
+      Self.logger.warning("Could not connect to Discord: \(error)")
+
+      return false
+    }
+  }
+
+  func poll(every delay: DispatchTimeInterval, action: @escaping () -> Bool) {
+    if action() {
+      DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+        poll(every: delay, action: action)
+      }
     }
   }
 
@@ -109,14 +133,14 @@ struct RadioApp: App {
     )
   }
 
-  func updateActivity() {
+  func updateActivity(rpc: DiscordRPC) {
     let song = getNowPlayingSong()
     let activity = song == nil ? activity() : activity(for: song!)
 
-    updateActivity(activity)
+    updateActivity(rpc: rpc, activity: activity)
   }
 
-  func updateActivity(_ activity: Activity) {
+  func updateActivity(rpc: DiscordRPC, activity: Activity) {
     let request = RequestSetActivity(
       nonce: generateNonce(async: true),
       args: .init(activity: activity)
@@ -128,7 +152,7 @@ struct RadioApp: App {
       let encoded = try encoder.encode(request)
 
       if let json = String(data: encoded, encoding: .utf8) {
-        try rpc!.send(json, .frame)
+        try rpc.send(json, .frame)
       }
     } catch let err {
       Self.logger.error("\(err)")
