@@ -100,7 +100,6 @@ struct ContentView: View {
         }
       } footer: {
         Link("Homepage", destination: homepage)
-          .accessibilityLabel(Text("Opens the home page for Radio in the browser."))
       }
     }
     .formStyle(.grouped)
