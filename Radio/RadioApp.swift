@@ -112,7 +112,8 @@ struct RadioApp: App {
   func activityAssetImage(for song: Song) -> String {
     let image = "\(song.albumArtist) \(song.album)"
       .folding(options: .diacriticInsensitive, locale: .current)
-      .replacingOccurrences(of: "[^\\w-]+", with: "_", options: .regularExpression)
+      // For some reason, using \w in place of a-zA-z0-9 doesn't work as expected with text in other languages (like Japanese).
+      .replacingOccurrences(of: "[^a-zA-z0-9-]+", with: "_", options: .regularExpression)
       .lowercased()
 
     Self.logger.debug("\(song.album) \(image)")
