@@ -55,6 +55,12 @@ struct RadioApp: App {
                 return !connect(rpc: rpc)
               }
 
+              guard !NSRunningApplication.runningApplications(withBundleIdentifier: "co.brushedtype.doppler-macos").isEmpty else {
+                Self.logger.info("Doppler is not running.")
+
+                return true
+              }
+
               updateActivity(rpc: rpc)
 
               return true

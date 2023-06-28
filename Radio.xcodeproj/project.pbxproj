@@ -87,8 +87,8 @@
 			isa = PBXGroup;
 			children = (
 				00E007B12A09CA49006FEE5C /* RadioApp.swift */,
-				0012B46E2A0AE4E900C5C0DE /* Discord.swift */,
 				00E007B32A09CA49006FEE5C /* ContentView.swift */,
+				0012B46E2A0AE4E900C5C0DE /* Discord.swift */,
 				00E007B52A09CA4D006FEE5C /* Assets.xcassets */,
 				00E007BA2A09CA4D006FEE5C /* Radio.entitlements */,
 				00E007B72A09CA4D006FEE5C /* Preview Content */,
